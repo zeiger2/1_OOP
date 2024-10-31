@@ -41,26 +41,37 @@ public class WikipediaParser {
 //        catch (ArithmeticException e){
 //            System.out.println("Статьи закончились");
 //        }
-        Map<String,String> dictionary = new HashMap<String,String>();
+
+//        Map<String,String> dictionary = new HashMap<String,String>();
         int len=0;
-        try {
+
             JsonArray searchResults = root.getAsJsonObject("query").getAsJsonArray("search");
             len=searchResults.size();
+            String[] key = new String[len];
+            String[] value = new String[len];
+        try {
             for (int i = 0; i < searchResults.size(); i++) {
                 String pageTitle = searchResults.get(i).getAsJsonObject().get("title").getAsString();
                 String pageId = searchResults.get(i).getAsJsonObject().get("pageid").getAsString();
 //                System.out.println(pageTitle);
 //                System.out.println(pageId);
-                dictionary.put(pageTitle, pageId);
+//                dictionary.put(pageTitle, pageId);
+                key[i]=pageTitle;
+                value[i]=pageId;
             }
         } catch (Exception e){
             System.out.println("Ошибка: Больше статей нет");
         }
-        System.out.println(dictionary.keySet());
 
-//        URI pageUri = new URI("https://ru.wikipedia.org/w/index.php?curid=" + pageId);
-//        java.awt.Desktop.getDesktop().browse(pageUri);
-//
-//        System.out.println("Открыта страница на Википедии: " + pageUri);
+        System.out.println("Выберите интересующую вас статью:");
+        for (int i=0;i<len;i++){
+            System.out.println((i+1)+") "+key[i]);
+        }
+        int topic2 = Integer.parseInt(scanner.nextLine());
+
+        URI pageUri = new URI("https://ru.wikipedia.org/w/index.php?curid=" + value[topic2-1]);
+        java.awt.Desktop.getDesktop().browse(pageUri);
+
+        System.out.println("Открыта страница на Википедии: " + pageUri);
     }
 }
