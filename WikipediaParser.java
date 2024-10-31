@@ -27,12 +27,34 @@ public class WikipediaParser {
 
         Gson gson = new Gson();
         JsonObject root = gson.fromJson(json, JsonObject.class);
-        String pageTitle = root.getAsJsonObject("query").getAsJsonArray("search").get(0).getAsJsonObject().get("title").getAsString();
-        String pageId = root.getAsJsonObject("query").getAsJsonArray("search").get(0).getAsJsonObject().get("pageid").getAsString();
 
-        URI pageUri = new URI("https://ru.wikipedia.org/w/index.php?curid=" + pageId);
-        java.awt.Desktop.getDesktop().browse(pageUri);
+//        try{
+//            for (int i=0;i<999;i++) {
+//                String pageTitle = root.getAsJsonObject("query").getAsJsonArray("search").get(i).getAsJsonObject().get("title").getAsString();
+//                String pageId = root.getAsJsonObject("query").getAsJsonArray("search").get(i).getAsJsonObject().get("pageid").getAsString();
+//                System.out.println(pageTitle);
+//                System.out.println(pageId);
+//            }
+//        }
+//        catch (ArithmeticException e){
+//            System.out.println("Статьи закончились");
+//        }
 
-        System.out.println("Открыта страница на Википедии: " + pageUri);
+        try {
+            JsonArray searchResults = root.getAsJsonObject("query").getAsJsonArray("search");
+            for (int i = 0; i < searchResults.size(); i++) {
+                String pageTitle = searchResults.get(i).getAsJsonObject().get("title").getAsString();
+                String pageId = searchResults.get(i).getAsJsonObject().get("pageid").getAsString();
+                System.out.println(pageTitle);
+                System.out.println(pageId);
+            }
+        } catch (Exception e){
+            System.out.println("Ошибка: Больше статей нет");
+        }
+
+//        URI pageUri = new URI("https://ru.wikipedia.org/w/index.php?curid=" + pageId);
+//        java.awt.Desktop.getDesktop().browse(pageUri);
+//
+//        System.out.println("Открыта страница на Википедии: " + pageUri);
     }
 }
