@@ -42,15 +42,20 @@ public class WikipediaParser {
             System.out.println("Ошибка: Больше статей нет");
         }
 
-        System.out.println("Выберите интересующую вас статью:");
-        for (int i=0;i<len;i++){
-            System.out.println((i+1)+") "+key[i]);
+        if(len==0){
+            System.out.println("Статьи не найдено");
         }
-        int topic2 = Integer.parseInt(scanner.nextLine());
+        else {
+            System.out.println("Выберите интересующую вас статью:");
+            for (int i = 0; i < len; i++) {
+                System.out.println((i + 1) + ") " + key[i]);
+            }
+            int topic2 = Integer.parseInt(scanner.nextLine());
 
-        URI pageUri = new URI("https://ru.wikipedia.org/w/index.php?curid=" + value[topic2-1]);
-        java.awt.Desktop.getDesktop().browse(pageUri);
+            URI pageUri = new URI("https://ru.wikipedia.org/w/index.php?curid=" + value[topic2 - 1]);
+            java.awt.Desktop.getDesktop().browse(pageUri);
 
-        System.out.println("Открыта страница на Википедии: " + pageUri);
+            System.out.println("Открыта страница на Википедии: " + pageUri);
+        }
     }
 }
