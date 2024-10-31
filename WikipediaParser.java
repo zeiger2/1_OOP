@@ -28,15 +28,21 @@ public class WikipediaParser {
         Gson gson = new Gson();
         JsonObject root = gson.fromJson(json, JsonObject.class);
 //        JsonObject search = root.getAsJsonObject("query").getAsJsonObject("search");
-        JsonArray search = root.getAsJsonArray("query").getAsJsonArray();
-        
-        String pageTitle = search.getAsJsonObject().get("title").getAsString();
-        String pageId = search.getAsJsonObject().get("pageid").getAsString();
+//        JsonArray search = root.getAsJsonArray("query").getAsJsonArray();
+//
+//        String pageTitle = search.getAsJsonObject().get("title").getAsString();
+//        String pageId = search.getAsJsonObject().get("pageid").getAsString();
+//        System.out.println(pageTitle);
+//        System.out.println(pageId);
+        String pageTitle = root.getAsJsonObject("query").getAsJsonArray("search").get(0).getAsJsonObject().get("title").getAsString();
+        String pageId = root.getAsJsonObject("query").getAsJsonArray("search").get(0).getAsJsonObject().get("pageid").getAsString();
+
         System.out.println(pageTitle);
         System.out.println(pageId);
 
+
         URI pageUri = new URI("https://ru.wikipedia.org/w/index.php?curid=" + pageId);
-        //java.awt.Desktop.getDesktop().browse(pageUri);
+        java.awt.Desktop.getDesktop().browse(pageUri);
 
         System.out.println("Открыта страница на Википедии: " + pageUri);
     }
