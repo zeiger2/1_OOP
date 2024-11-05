@@ -10,7 +10,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-public class WikipediaParser {
+public class WikipediaParser_OLD {
 
     public static void main(String[] args) throws IOException, URISyntaxException {
         Scanner scanner = new Scanner(System.in);
@@ -27,10 +27,10 @@ public class WikipediaParser {
         JsonObject root = gson.fromJson(json, JsonObject.class);
 
         int len=0;
-            JsonArray searchResults = root.getAsJsonObject("query").getAsJsonArray("search");
-            len=searchResults.size();
-            String[] key = new String[len];
-            String[] value = new String[len];
+        JsonArray searchResults = root.getAsJsonObject("query").getAsJsonArray("search");
+        len=searchResults.size();
+        String[] key = new String[len];
+        String[] value = new String[len];
         try {
             for (int i = 0; i < searchResults.size(); i++) {
                 String pageTitle = searchResults.get(i).getAsJsonObject().get("title").getAsString();
