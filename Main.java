@@ -3,7 +3,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -14,9 +13,9 @@ import java.util.List;
 import java.util.Scanner;
 
 class WikipediaApi {
-
+    // выход за
+    static final String baseUrl = "https://ru.wikipedia.org/w/api.php";
     public List<WikipediaArticle> searchArticles(String topic) throws IOException {
-        String baseUrl = "https://ru.wikipedia.org/w/api.php";
         String searchUrl = baseUrl + "?action=query&list=search&utf8=&format=json&srsearch="
                 + URLEncoder.encode(topic, StandardCharsets.UTF_8);
 
@@ -71,7 +70,11 @@ class WikipediaSearcher {
 
     public void start() throws IOException, URISyntaxException {
         System.out.println("Введите тему для поиска на Википедии:");
-        String topic = scanner.nextLine();
+        String topic = scanner.nextLine().trim();
+        while (topic.isEmpty()){
+            System.out.println("Запрос не может быть пустым, введите непустой запрос: ");
+            topic = scanner.nextLine().trim();
+        }
 
         List<WikipediaArticle> articles = api.searchArticles(topic);
 
@@ -80,6 +83,10 @@ class WikipediaSearcher {
         } else {
             displayArticles(articles);
             int selectedIndex = Integer.parseInt(scanner.nextLine()) - 1;
+            while (selectedIndex<0 || selectedIndex>=10){
+                System.out.println("Такой статьи нет. Выберите другую: ");
+                selectedIndex = Integer.parseInt(scanner.nextLine()) - 1;
+            }
             openArticle(articles.get(selectedIndex));
         }
     }
